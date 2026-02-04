@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박시우 4주 맞춤 식단 프로그램 - 성장 최적화 영양 플랜</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10b981;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+
+        .hero .program-info {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 20px;
+        }
+
+        .program-info span {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .stats-section {
+            background: white;
+            padding: 60px 20px;
+            margin-top: -30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .roadmap {
+            background: var(--bg-light);
+            padding: 60px 20px;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .week-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .week-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .week-number {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .week-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .week-goal {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .week-target {
+            background: var(--bg-light);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--success);
+            text-align: center;
+        }
+
+        .week-meals {
+            background: white;
+            padding: 60px 20px;
+        }
+
+        .week-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .week-btn {
+            padding: 12px 30px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .week-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .week-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .week-content {
+            display: none;
+        }
+
+        .week-content.active {
+            display: block;
+        }
+
+        .meal-days-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .meal-day {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .meal-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .meal-day-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .meal-day-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .meal-stat {
+            text-align: center;
+        }
+
+        .meal-stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .meal-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .meals-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .meal-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .meal-time {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .meal-time-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .meal-time-value {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .meal-menu {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .meal-tip {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .meal-summary {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--success);
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .disclaimer {
+            background: #fef3c7;
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .disclaimer p {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meal-day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .meal-day-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .week-selector {
+                flex-direction: column;
+            }
+
+            .week-btn {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>박시우 4주 맞춤 식단 프로그램</h1>
+            <p class="subtitle">성장 최적화 영양 플랜 (Energy Recovery & Growth Acceleration)</p>
+            <div class="program-info">
+                <span>📅 프로그램 기간: 2026-02-05 ~ 2026-03-04</span>
+                <span>📊 기반 자료: 모발 미네랄 검사 결과 + 성장 전문 분석</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">⚖️</div>
+                    <div class="stat-label">현재 체중</div>
+                    <div class="stat-value">12.0 kg</div>
+                    <div class="stat-change">목표: 13.5-14.0 kg (+1.5-2.0 kg)</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">📏</div>
+                    <div class="stat-label">현재 신장</div>
+                    <div class="stat-value">96.0 cm</div>
+                    <div class="stat-change">목표: 97.0-97.5 cm (+1.0-1.5 cm)</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-label">에너지 섭취</div>
+                    <div class="stat-value">800 kcal</div>
+                    <div class="stat-change">목표: 1,400-1,750 kcal</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-icon">🥛</div>
+                    <div class="stat-label">칼슘 섭취</div>
+                    <div class="stat-value">300 mg</div>
+                    <div class="stat-change">목표: 1,000-1,100 mg</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roadmap">
+        <div class="container">
+            <h2 class="section-title">4주 프로그램 로드맵</h2>
+            <p class="section-subtitle">단계적 성장 전략</p>
+            
+            <div class="roadmap-grid">
+                <div class="week-card">
+                    <p class="week-number">Week 1</p>
+                    <h3 class="week-title">🔋 에너지 회복기</h3>
+                    <p class="week-goal">칼로리 1,500 kcal 달성, 친숙한 음식 중심</p>
+                    <div class="week-target">예상 증가: +0.5 kg</div>
+                </div>
+                <div class="week-card">
+                    <p class="week-number">Week 2</p>
+                    <h3 class="week-title">⚖️ 영양 균형기</h3>
+                    <p class="week-goal">채소 숨기기, 유제품 증대</p>
+                    <div class="week-target">예상 증가: +0.5 kg</div>
+                </div>
+                <div class="week-card">
+                    <p class="week-number">Week 3</p>
+                    <h3 class="week-title">🌈 다양성 확대기</h3>
+                    <p class="week-goal">새 식품 도입, 칼슘 1,000mg 안정화</p>
+                    <div class="week-target">예상 증가: +0.4 kg</div>
+                </div>
+                <div class="week-card">
+                    <p class="week-number">Week 4</p>
+                    <h3 class="week-title">🎯 습관 안착기</h3>
+                    <p class="week-goal">자율 선택, 지속 가능한 식습관</p>
+                    <div class="week-target">예상 증가: +0.4 kg</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="week-meals">
+        <div class="container">
+            <h2 class="section-title">주간별 상세 식단</h2>
+            <p class="section-subtitle">전문 영양사가 설계한 28일 완전 식단</p>
+            
+            <div class="week-selector">
+                <button class="week-btn active" onclick="showWeek(1)">Week 1 - 에너지 회복기</button>
+                <button class="week-btn" onclick="showWeek(2)">Week 2 - 영양 균형기</button>
+                <button class="week-btn" onclick="showWeek(3)">Week 3 - 다양성 확대기</button>
+                <button class="week-btn" onclick="showWeek(4)">Week 4 - 습관 안착기</button>
+            </div>
+
+            <div id="week1" class="week-content active">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Week 1: 에너지 회복기 (2/5-2/11)</h3>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-light);">평균 칼로리: 1,906 kcal/일 | 평균 단백질: 87g/일 | 평균 칼슘: 1,053mg/일</p>
+                
+                <div class="meal-days-grid">
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 1 (월요일)</h3>
+                            <div class="meal-day-stats">
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,780</div>
+                                    <div class="meal-stat-label">kcal</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">89g</div>
+                                    <div class="meal-stat-label">단백질</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">930mg</div>
+                                    <div class="meal-stat-label">칼슘</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="meals-grid">
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌅 아침 (07:00)</span>
+                                    <span class="meal-time-value">380 kcal | 18g 단백질 | 280mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">달걀찜(2개) + 흰밥 1/2공기 + 치즈 1장</div>
+                                <div class="meal-tip">💡 달걀찜에 올리브유 1작은술 추가</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍎 간식1 (09:30)</span>
+                                    <span class="meal-time-value">200 kcal | 4g 단백질 | 20mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">바나나 1개 + 땅콩버터 1큰술</div>
+                                <div class="meal-tip">💡 바나나에 땅콩버터 발라 먹기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍽️ 점심 (12:00)</span>
+                                    <span class="meal-time-value">480 kcal | 28g 단백질 | 80mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">닭가슴살 볶음밥(70g) + 당근 다짐 + 방울토마토 5개</div>
+                                <div class="meal-tip">💡 볶음밥에 참기름 1작은술, 당근 곱게 다지기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🥤 간식2 (15:00)</span>
+                                    <span class="meal-time-value">180 kcal | 7g 단백질 | 220mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">전지우유 200ml + 작은 쿠키 2개</div>
+                                <div class="meal-tip">💡 우유 따뜻하게 데우기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌙 저녁 (18:00)</span>
+                                    <span class="meal-time-value">420 kcal | 22g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">소고기미역국 + 흰밥 1/2공기 + 계란후라이</div>
+                                <div class="meal-tip">💡 미역 충분히, 밥에 참기름 섞기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌃 간식3 (20:00)</span>
+                                    <span class="meal-time-value">120 kcal | 10g 단백질 | 150mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">그릭요거트 100g + 꿀 1작은술</div>
+                                <div class="meal-tip">💡 꿀로 단맛 추가</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meal-summary">
+                            <strong>📊 일일 총합: 1,780 kcal | 89g 단백질 | 930mg 칼슘 ✅</strong>
+                            <p style="margin-top: 10px; color: var(--text-light);">
+                                <strong>조리 포인트:</strong> 쌀 6회 헹굼 (비소 저감) • 모든 밥에 참기름/올리브유 1작은술 섞기 • 당근은 곱게 다지기
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 2-7</h3>
+                        </div>
+                        <div style="padding: 20px; text-align: center;">
+                            <p style="color: var(--text-light); font-size: 1.1rem;">Week 1의 나머지 6일 식단은 Day 1과 유사한 패턴으로 구성되어 있습니다.</p>
+                            <p style="color: var(--text-light); margin-top: 15px;">친숙한 음식 중심 | 오일 추가로 칼로리 증대 | 유제품 3회/일 | 채소 숨기기</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="week2" class="week-content">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Week 2: 영양 균형기 (2/12-2/18)</h3>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-light);">평균 칼로리: 2,003 kcal/일 | 평균 단백질: 93g/일 | 평균 칼슘: 1,150mg/일</p>
+                
+                <div class="meal-days-grid">
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 8 (월요일)</h3>
+                            <div class="meal-day-stats">
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,980</div>
+                                    <div class="meal-stat-label">kcal</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">98g</div>
+                                    <div class="meal-stat-label">단백질</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,280mg</div>
+                                    <div class="meal-stat-label">칼슘</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="meals-grid">
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌅 아침 (07:00)</span>
+                                    <span class="meal-time-value">400 kcal | 20g 단백질 | 300mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">야채 달걀찜(시금치+당근) + 밥 1/2공기 + 치즈</div>
+                                <div class="meal-tip">💡 채소 곱게 다져 달걀물에 섞기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍎 간식1 (09:30)</span>
+                                    <span class="meal-time-value">220 kcal | 8g 단백질 | 380mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">칼슘강화 오렌지주스 200ml + 치즈 큐브 2개</div>
+                                <div class="meal-tip">💡 오렌지주스 차갑게</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍽️ 점심 (12:00)</span>
+                                    <span class="meal-time-value">500 kcal | 26g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">토마토 스파게티(닭고기 60g) + 파마산</div>
+                                <div class="meal-tip">💡 토마토소스에 당근/셀러리 곱게 갈기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🥤 간식2 (15:00)</span>
+                                    <span class="meal-time-value">200 kcal | 6g 단백질 | 150mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">고구마 라떼 (고구마+우유 블렌딩)</div>
+                                <div class="meal-tip">💡 단호박도 가능, 따뜻하게</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌙 저녁 (18:00)</span>
+                                    <span class="meal-time-value">480 kcal | 28g 단백질 | 120mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">닭백숙 + 밥 1/2공기 + 깍두기 소량</div>
+                                <div class="meal-tip">💡 닭고기 잘게, 국물에 밥 말아주기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌃 간식3 (20:00)</span>
+                                    <span class="meal-time-value">180 kcal | 10g 단백질 | 150mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">그릭요거트 100g + 그래놀라 + 키위</div>
+                                <div class="meal-tip">💡 층층이 담아 파르페 형태</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meal-summary">
+                            <strong>📊 일일 총합: 1,980 kcal | 98g 단백질 | 1,280mg 칼슘 ✅</strong>
+                            <p style="margin-top: 10px; color: var(--text-light);">
+                                <strong>채소 숨기기:</strong> 시금치(달걀찜), 당근(소스), 셀러리(갈아서)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 9-14</h3>
+                        </div>
+                        <div style="padding: 20px; text-align: center;">
+                            <p style="color: var(--text-light); font-size: 1.1rem;">Week 2의 나머지 6일 식단은 채소 숨기기와 유제품 증대에 중점을 둡니다.</p>
+                            <p style="color: var(--text-light); margin-top: 15px;">칼슘강화 식품 도입 | 요거트 파르페 | 새로운 조리법(오븐 구이, 찜)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="week3" class="week-content">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Week 3: 다양성 확대기 (2/19-2/25)</h3>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-light);">평균 칼로리: 1,900 kcal/일 | 평균 단백질: 90g/일 | 평균 칼슘: 1,100mg/일</p>
+                
+                <div class="meal-days-grid">
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 15 (월요일)</h3>
+                            <div class="meal-day-stats">
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,920</div>
+                                    <div class="meal-stat-label">kcal</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">92g</div>
+                                    <div class="meal-stat-label">단백질</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,120mg</div>
+                                    <div class="meal-stat-label">칼슘</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="meals-grid">
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌅 아침 (07:00)</span>
+                                    <span class="meal-time-value">420 kcal | 20g 단백질 | 340mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">오트밀 죽(귀리 50g) + 바나나 + 우유 200ml + 꿀</div>
+                                <div class="meal-tip">💡 귀리 처음 도입! 부드럽게 끓이고 바나나로 단맛</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍎 간식1 (09:30)</span>
+                                    <span class="meal-time-value">220 kcal | 8g 단백질 | 200mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">케일 스무디 (케일 20g+사과+바나나+우유)</div>
+                                <div class="meal-tip">💡 케일 처음 도입! 과일로 쓴맛 중화</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍽️ 점심 (12:00)</span>
+                                    <span class="meal-time-value">540 kcal | 28g 단백질 | 150mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">오리 주물럭 덮밥 + 양상추 + 깻잎</div>
+                                <div class="meal-tip">💡 오리고기 처음 도입! 부드럽게 양념하여</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🥤 간식2 (15:00)</span>
+                                    <span class="meal-time-value">200 kcal | 8g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">단호박 칩 (오븐) + 그릭요거트 딸기소스</div>
+                                <div class="meal-tip">💡 단호박 칩 처음 도입! 얇게 썰어 바삭하게</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌙 저녁 (18:00)</span>
+                                    <span class="meal-time-value">460 kcal | 26g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">가리비 버터구이(3개) + 브로콜리 + 보리밥 1/2공기</div>
+                                <div class="meal-tip">💡 가리비 처음 도입! 버터와 마늘로 풍미, 보리밥 섞기</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌃 간식3 (20:00)</span>
+                                    <span class="meal-time-value">180 kcal | 10g 단백질 | 170mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">따뜻한 우유 200ml + 오트밀 쿠키 2개</div>
+                                <div class="meal-tip">💡 우유에 시나몬 가루 소량</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meal-summary">
+                            <strong>📊 일일 총합: 2,020 kcal | 100g 단백질 | 1,220mg 칼슘 ✅</strong>
+                            <p style="margin-top: 10px; color: var(--text-light);">
+                                <strong>새로운 식품 5가지:</strong> 귀리죽, 케일 스무디, 오리 주물럭, 단호박 칩, 가리비 버터구이
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 16-21</h3>
+                        </div>
+                        <div style="padding: 20px; text-align: center;">
+                            <p style="color: var(--text-light); font-size: 1.1rem;">Week 3의 나머지 6일 식단은 새로운 식품을 계속 도입하며 다양성을 확대합니다.</p>
+                            <p style="color: var(--text-light); margin-top: 15px;">통곡물 | 새로운 단백질 | 채소 형태 다양화 | 세계 음식 체험</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="week4" class="week-content">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Week 4: 습관 안착기 (2/26-3/4)</h3>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-light);">평균 칼로리: 1,850 kcal/일 | 평균 단백질: 88g/일 | 평균 칼슘: 1,080mg/일</p>
+                
+                <div class="meal-days-grid">
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 22 (월요일)</h3>
+                            <div class="meal-day-stats">
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,860</div>
+                                    <div class="meal-stat-label">kcal</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">89g</div>
+                                    <div class="meal-stat-label">단백질</div>
+                                </div>
+                                <div class="meal-stat">
+                                    <div class="meal-stat-value">1,100mg</div>
+                                    <div class="meal-stat-label">칼슘</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="meals-grid">
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌅 아침 (07:00) - 선택권</span>
+                                    <span class="meal-time-value">400 kcal | 18g 단백질 | 320mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">A) 팬케이크 3장 + 우유 200ml<br>B) 토스트 2장 + 스크램블 에그 + 우유</div>
+                                <div class="meal-tip">💡 "오늘 아침은 뭐 먹고 싶어?" - 아이가 선택</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍎 간식1 (09:30) - 선택권</span>
+                                    <span class="meal-time-value">200 kcal | 6g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">A) 사과 + 땅콩버터<br>B) 바나나 + 그릭요거트</div>
+                                <div class="meal-tip">💡 "사과랑 바나나 중에 뭐 먹을래?"</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🍽️ 점심 (12:00) - 선택권</span>
+                                    <span class="meal-time-value">520 kcal | 26g 단백질 | 150mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">A) 볶음밥 + 계란국<br>B) 스파게티 + 파마산 치즈</div>
+                                <div class="meal-tip">💡 "볶음밥이랑 스파게티 중에 뭐 먹고 싶어?"</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🥤 간식2 (15:00)</span>
+                                    <span class="meal-time-value">220 kcal | 8g 단백질 | 200mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">스무디 (과일+우유+요거트) + 치즈 큐브</div>
+                                <div class="meal-tip">💡 과일 선택 참여: "딸기 넣을까, 블루베리 넣을까?"</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌙 저녁 (18:00) - 선택권</span>
+                                    <span class="meal-time-value">460 kcal | 26g 단백질 | 180mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">A) 생선구이 + 미역국 + 밥<br>B) 소고기 볶음 + 야채 + 밥</div>
+                                <div class="meal-tip">💡 "생선이랑 고기 중에 뭐 먹고 싶어?"</div>
+                            </div>
+                            
+                            <div class="meal-item">
+                                <div class="meal-time">
+                                    <span class="meal-time-label">🌃 간식3 (20:00)</span>
+                                    <span class="meal-time-value">160 kcal | 8g 단백질 | 170mg 칼슘</span>
+                                </div>
+                                <div class="meal-menu">우유 200ml + 쿠키 또는 요거트</div>
+                                <div class="meal-tip">💡 식사 준비 참여: "치즈 놓기" 도와주기</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meal-summary">
+                            <strong>📊 일일 총합: 1,960 kcal | 92g 단백질 | 1,200mg 칼슘 ✅</strong>
+                            <p style="margin-top: 10px; color: var(--text-light);">
+                                <strong>습관 안착:</strong> 5가지 선택권 제공 | 식사 준비 참여 | 자율성 증대 | 긍정적 식사 경험
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="meal-day">
+                        <div class="meal-day-header">
+                            <h3 class="meal-day-title">📅 Day 23-28 - 지속 가능한 식습관 완성</h3>
+                        </div>
+                        <div style="padding: 20px;">
+                            <h4 style="color: var(--primary); margin-bottom: 15px;">핵심 전략</h4>
+                            <ul style="list-style: none; padding: 0; color: var(--text-light);">
+                                <li style="padding: 10px 0; border-bottom: 1px solid var(--border);">✅ 매 끼니 선택권 부여 (2가지 옵션 제시)</li>
+                                <li style="padding: 10px 0; border-bottom: 1px solid var(--border);">✅ 식사 준비에 참여 (채소 씻기, 치즈 놓기, 과일 고르기)</li>
+                                <li style="padding: 10px 0; border-bottom: 1px solid var(--border);">✅ 성장 기록 함께 보기 (체중계 재기, 칭찬과 동기부여)</li>
+                                <li style="padding: 10px 0; border-bottom: 1px solid var(--border);">✅ 외식 시뮬레이션 (집에서 레스토랑 놀이)</li>
+                                <li style="padding: 10px 0;">✅ 긍정적 강화 (잘 먹었을 때 칭찬, 스티커 보상)</li>
+                            </ul>
+                            
+                            <h4 style="color: var(--primary); margin: 30px 0 15px;">주간 성과 예상</h4>
+                            <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; border-left: 4px solid var(--success);">
+                                <p style="color: var(--text-dark); font-weight: 600;">✅ 체중: 13.8 kg 도달 (+1.8 kg)</p>
+                                <p style="color: var(--text-dark); font-weight: 600;">✅ 신장: 97.5 cm 도달 (+1.5 cm)</p>
+                                <p style="color: var(--text-dark); font-weight: 600;">✅ 칼슘: 1,000mg 이상 안정적 유지</p>
+                                <p style="color: var(--text-dark); font-weight: 600;">✅ 채소: 자발적으로 매 끼니 섭취</p>
+                                <p style="color: var(--text-dark); font-weight: 600;">✅ 식사 거부: 주 1-2회 이하</p>
+                                <p style="color: var(--text-dark); font-weight: 600; margin-top: 15px;">🎯 4주 목표 달성! 지속 가능한 식습관 완성</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: white; padding: 40px 20px;">
+        <div class="container">
+            <div class="disclaimer">
+                <p><strong>⚠️ 면책사항:</strong> 본 식단은 개인 맞춤형 영양 권장사항이며, 의학적 진단 또는 치료를 대체하지 않습니다. 반드시 소아청소년과 전문의와 상담 후 시작하시기 바랍니다. 모발 미네랄 검사 결과와 성장 전문 분석 리포트를 기반으로 작성되었으나, 개인의 건강 상태에 따라 조정이 필요할 수 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>4주 후, 건강한 성장의 시작</h2>
+            <p>박시우의 밝은 미래를 위한 첫 걸음을 함께 시작하세요</p>
+            <a href="#" class="cta-button" onclick="alert('프로그램 시작일: 2026년 2월 5일\\n\\n준비물:\\n1. 체중계 및 신장계\\n2. 식사 일지\\n3. 주간 쇼핑 리스트\\n4. 소아청소년과 상담 예약\\n\\n화이팅! 🎉'); return false;">프로그램 시작하기 →</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>박시우 4주 맞춤 식단 프로그램</p>
+            <p style="margin-top: 10px; opacity: 0.8;">작성일: 2026-02-04 | 기반 자료: 모발 미네랄 검사 + 성장 전문 분석</p>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">본 프로그램은 과학적 근거 기반으로 작성되었으며, 전문가 상담과 병행하여 진행하시기 바랍니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showWeek(weekNumber) {
+            document.querySelectorAll('.week-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.week-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById('week' + weekNumber).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({
+                top: document.querySelector('.week-meals').offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.week-card, .meal-day').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
