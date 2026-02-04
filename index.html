@@ -546,34 +546,21 @@
         .footer {
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: white;
-            padding: 60px 24px 40px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 40px;
-        }
-
-        .footer-brand {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            padding: 50px 24px;
+            text-align: center;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
 
         .footer-logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             border-radius: 8px;
             display: flex;
@@ -581,54 +568,51 @@
             justify-content: center;
             font-weight: 800;
             color: white;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .footer-logo-text {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
         }
 
         .footer-description {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
 
-        .footer-section h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .footer-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: #FEE500;
+            color: #3c1e1e;
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(254, 229, 0, 0.3);
         }
 
-        .footer-links a:hover {
-            color: var(--primary);
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(254, 229, 0, 0.4);
         }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
+            margin-top: 30px;
+            padding-top: 24px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-bottom p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.6;
         }
 
         @media (max-width: 768px) {
@@ -670,11 +654,6 @@
 
             .week-btn {
                 width: 100%;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
             }
 
             .section-title {
@@ -1227,42 +1206,21 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-icon">B</div>
-                        <span class="footer-logo-text">Balance Lab</span>
-                    </div>
-                    <p class="footer-description">
-                        밸런스랩은 큐모발검사(Q Hair Test) 기반 맞춤형 뉴트리션 서비스를 제공합니다.<br>
-                        과학적 근거와 전문 영양사의 분석으로 개인별 최적의 영양 솔루션을 제시합니다.
-                    </p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>서비스</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">큐모발검사</a></li>
-                        <li><a href="#">맞춤 식단 프로그램</a></li>
-                        <li><a href="#">영양 상담</a></li>
-                        <li><a href="#">성장 관리</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>정보</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">회사 소개</a></li>
-                        <li><a href="#">이용 약관</a></li>
-                        <li><a href="#">개인정보처리방침</a></li>
-                        <li><a href="#">문의하기</a></li>
-                    </ul>
-                </div>
+            <div class="footer-logo">
+                <div class="footer-logo-icon">B</div>
+                <span class="footer-logo-text">Balance Lab</span>
             </div>
+            <p class="footer-description">
+                밸런스랩 큐모발검사 뉴트리션 서비스
+            </p>
+            
+            <a href="https://pf.kakao.com/_iqCYM" target="_blank" class="contact-btn">
+                💬 상담 문의 (카카오톡)
+            </a>
             
             <div class="footer-bottom">
-                <p>© 2026 Balance Lab. All rights reserved. | 작성일: 2026-02-04 | 기반 자료: 모발 미네랄 검사 + 성장 전문 분석</p>
-                <p style="margin-top: 8px;">본 프로그램은 과학적 근거 기반으로 작성되었으며, 전문가 상담과 병행하여 진행하시기 바랍니다.</p>
+                <p>© 2026 Balance Lab. All rights reserved.</p>
+                <p style="margin-top: 6px;">작성일: 2026-02-04 | 본 프로그램은 과학적 근거 기반으로 작성되었습니다.</p>
             </div>
         </div>
     </footer>
